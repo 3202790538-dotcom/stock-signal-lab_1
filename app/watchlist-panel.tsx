@@ -1,0 +1,23 @@
+"use client";
+import {Bookmark,ChevronLeft,ChevronRight,Database} from "lucide-react";
+
+export type WatchlistStatus='ready'|'stale'|'unavailable'|'unsupported'|'pending';
+export type WatchlistInstrument={contractId:string;symbol:string;quoteSymbol:string|null;name:string;market:string;currency:string|null;supported:boolean;status:WatchlistStatus;reason:string|null;asOf:string|null;groupIds:string[]};
+export type Watchlists={source:string;importedAt:string|null;uniqueCount:number;groups:{id:string;name:string;count:number;contractIds:string[];symbols:string[]}[];instruments:WatchlistInstrument[];counts:Record<WatchlistStatus,number>};
+const statusLabels:Record<WatchlistStatus,string>={ready:'行情可用',stale:'沿用缓存',unavailable:'获取失败',unsupported:'暂不支持报价',pending:'等待行情'};
+const importTime=(value:string|null)=>value?new Date(value).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}):'尚未导入';
+
+export function WatchlistImport({watchlists,group,onGroup,pricedCount}:{watchlists:Watchlists;group:string;onGroup:(value:string)=>void;pricedCount:number}){
+ const selected=watchlists.groups.find(item=>item.id===group);
+ return <section className="watchlist-import" aria-label="IBKR 自选清单导入概况"><div className="watchlist-import-top"><div><h2><Database size={17}/>IBKR 自选清单</h2><p><strong>{watchlists.uniqueCount}</strong> 个去重标的 · {watchlists.groups.length} 个分组 · 保留跨组归属</p></div><label className="watchlist-group">清单分组<select aria-label="IBKR 清单分组" value={group} onChange={event=>onGroup(event.target.value)}><option value="all">全部分组 · {watchlists.uniqueCount} 个标的</option>{watchlists.groups.map(item=><option key={item.id} value={item.id}>{item.name} · {item.count} 个标的</option>)}</select></label></div><div className="watchlist-counts"><span className="watchlist-counts-label">全部清单行情覆盖</span>{(['ready','stale','pending','unavailable','unsupported'] as const).filter(key=>watchlists.counts[key]>0).map(key=><span key={key} className={`quote-status ${key}`}>{statusLabels[key]} <b>{watchlists.counts[key]}</b></span>)}</div><p className="watchlist-provenance">{watchlists.source} · 清单导入 {importTime(watchlists.importedAt)}（北京时间）。清单为手动导入快照；“刷新行情”仅更新 Yahoo 日线，不同步 IBKR 清单或账户。</p><div className="watchlist-scope"><span>当前分组：<b>{selected?.name||'全部分组'}</b> · {selected?.count??watchlists.uniqueCount} 个导入标的 · {pricedCount} 个有可用日线（含缓存）</span><span>本地收藏独立于 IBKR Favorites</span></div></section>;
+}
+
+export function WatchlistExceptions({instruments,watchlists,saved,onSave}:{instruments:WatchlistInstrument[];watchlists:Watchlists;saved:string[];onSave:(symbol:string)=>void}){
+ if(!instruments.length)return null;
+ return <section className="watchlist-exceptions" aria-label="未报价与缓存说明"><div className="watchlist-exceptions-heading"><h3>未报价与缓存说明 <span>{instruments.length}</span></h3><p>按分组及关键词显示；缓存标的也会出现在行情表中。</p></div><div className="watchlist-exception-list">{instruments.map(item=><article key={item.contractId} className="watchlist-exception"><div className="watchlist-exception-identity"><b>{item.symbol}</b><span>{item.name}</span><small>{item.market||'市场未提供'} · {item.currency||'币种未提供'} · {item.groupIds.map(id=>watchlists.groups.find(group=>group.id===id)?.name||id).join(' / ')}</small></div><div className="watchlist-exception-reason"><span className={`quote-status ${item.status}`}>{statusLabels[item.status]}</span><p>{item.reason||'尚未获得足够的有效日线，暂不计算价格与信号。'}</p>{item.asOf&&<small>缓存截至 {item.asOf}</small>}</div><button className={saved.includes(item.symbol)?'saved star':'star'} aria-label={`${saved.includes(item.symbol)?'取消本地收藏':'本地收藏'} ${item.symbol}`} onClick={()=>onSave(item.symbol)}><Bookmark size={17} fill={saved.includes(item.symbol)?'currentColor':'none'}/></button></article>)}</div></section>;
+}
+
+export function WatchlistPagination({page,total,pageSize,onPage,onPageSize}:{page:number;total:number;pageSize:number;onPage:(page:number)=>void;onPageSize:(size:number)=>void}){
+ const pages=Math.max(1,Math.ceil(total/pageSize));
+ return <div className="watchlist-pagination"><span>{total?`${(page-1)*pageSize+1}–${Math.min(page*pageSize,total)}`:'0'} / {total} 个行情标的</span><div><label>每页<select aria-label="每页行情数量" value={pageSize} onChange={event=>onPageSize(Number(event.target.value))}>{[10,20,50].map(size=><option key={size} value={size}>{size}</option>)}</select></label><button aria-label="上一页行情" disabled={page<=1} onClick={()=>onPage(page-1)}><ChevronLeft size={16}/></button><span>{page} / {pages}</span><button aria-label="下一页行情" disabled={page>=pages} onClick={()=>onPage(page+1)}><ChevronRight size={16}/></button></div></div>;
+}

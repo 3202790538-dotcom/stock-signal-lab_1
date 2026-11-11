@@ -1,0 +1,355 @@
+/* Shared workspace defaults. Feature styles retain their own data visualizations. */
+:root {
+  --ink: #292333;
+  --muted: #51495e;
+  --purple: #352250;
+  --green: #176149;
+  --red: #9f3449;
+  --glass: rgba(249, 251, 255, .72);
+  --control-border: #b9aecb;
+  --focus: #65418c;
+  --workspace-radius: 20px;
+}
+
+html { scroll-padding-top: 24px; }
+body { line-height: 1.6; }
+.app { min-width: 0; }
+.app main,
+.app .content,
+.app .panel,
+.app .company-workspace,
+.app .watchlist-workspace { min-width: 0; }
+
+/* Compact spacing comes from layout, while readable text keeps its full size. */
+.app .page-heading h1 { font-size: clamp(24px, 2.2vw, 29px); line-height: 1.3; }
+.app .page-heading p { font-size: 15px; color: var(--muted); }
+.app .panel-head h2,
+.app .section-heading h2 { font-size: 18px; color: var(--ink); }
+.app .nav { font-size: 14px; min-height: 42px; padding: 10px 13px; }
+.app .nav em,
+.app .research-stock-tabs button small,
+.app .ci-segment button > span { opacity: 1; }
+.app .nav:not(.active) { color: var(--muted); }
+.app .nav.active { font-weight: 600; }
+.app .sidebar nav { scrollbar-width: thin; scrollbar-color: #a89bbd transparent; }
+
+.app :is(.page-heading .eyebrow, .heading-actions > span,
+  .summary-heading > span, .summary-heading > div > span, .summary-heading > button,
+  .card-tag, .card-bottom small, .ring-legend button > span, .structure-method,
+  .section-heading small, .filters button, .filters span, .pill,
+  .stock-name small, .watchlist-membership, .quote-stale, .quote-status,
+  .watchlist-import-top p, .watchlist-counts-label, .watchlist-provenance,
+  .watchlist-scope, .watchlist-pagination, .watchlist-exceptions-heading p,
+  .watchlist-exception small, .watchlist-exception-reason p,
+  .company small, .company h2 span, .panel-head > small,
+  .chart-price > small, .legend span, .ranges button, .readout,
+  .volume-label, .chart-note, .chart-cache-note, .indicators span,
+  .ma-list > div, .ma-list b, .fundamental > div, .fundamental small,
+  .fundamental p, .fundamental a, .quiet, .notice, .signal-top small,
+  .rule b, .rule p, .signal-bottom, .source-status, .source > small,
+  .method p, .risk > small, .source p, .empty p, .research-symbol-selector > span,
+  .company-workspace-tabs button, .research-note, .research-source,
+  .research-period-grid span, .research-facts span, .research-concentration span,
+  .research-metrics > div, .research-inputs label, .research-valuation-result span,
+  .research-valuation-result small, .research-stock-tabs button small, footer) {
+  font-size: 14px;
+}
+
+.app :is(.search input, .sort select, .watchlist-group, .watchlist-group select,
+  .research-symbol-selector label, .research-symbol-selector select,
+  .research-inputs input, .research-inputs select, .refresh) { font-size: 15px; }
+.app :is(.observation, .research-prose, .research-risk p, .research-event p,
+  .source p, .risk > p, .research-capability p) { font-size: 15px; line-height: 1.8; }
+.app :is(.stock-name b, .price, .signal-top > b, .signal-price,
+  .indicators strong, .chart-price > strong, .ring-legend strong,
+  .source h2, .method h3, .risk-stat strong, .research-valuation-result strong) {
+  color: var(--ink);
+}
+.app :is(.stock-name small, .heading-actions > span, .quiet, .chart-note,
+  .watchlist-membership, .company small, .company h2 span,
+  .fundamental p, .source p, .method p, .signal-top small, .rule p) {
+  color: var(--muted);
+}
+.app .watchlist-membership { color: var(--muted) !important; }
+.app .ring-total { fill: var(--ink); }
+.app .ring-caption { fill: var(--muted); font-size: 15px; }
+
+/* The same field, focus, and disabled treatment applies in every workspace. */
+.app :is(input, select, textarea):not([type="range"]):not([type="checkbox"]):not([type="radio"]) {
+  border-color: var(--control-border);
+  color: var(--ink);
+  min-height: 40px;
+}
+.app :is(.search, .sort) {
+  background: #fbfaff;
+  border-color: var(--control-border);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  min-height: 42px;
+}
+.app :is(.search input, .sort select) { min-height: 30px; }
+.app .search input::placeholder { color: var(--muted); opacity: 1; }
+.app :is(.search, .sort):focus-within { border-color: var(--focus); }
+.app :is(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.app :is(.search input, .sort select):focus-visible { outline-offset: 1px; }
+.app button:disabled { cursor: default; opacity: .55; }
+.app :is(button[aria-busy="true"], .refresh:disabled) { cursor: progress; }
+.app :is(.privacy-button, .star, .notice > button, .search > button) {
+  min-width: 36px;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+.app :is(.privacy-button, .star, .notice > button, .search > button):hover {
+  background: rgba(220, 210, 237, .7);
+}
+.app .filters { gap: 7px; }
+.app .filters button { min-height: 38px; }
+.app .filters button.active { background: #ded2ed; color: #3d285b; font-weight: 600; }
+
+/* Long imported names stay readable without stretching the table or cards. */
+.app .watchlist-import { padding: 15px 18px; }
+.app .watchlist-import-top > div { min-width: 0; }
+.app .watchlist-group { min-width: 0; }
+.app .watchlist-group select { max-width: min(100%, 360px); }
+.app .watchlist-table { max-width: 100%; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.app .watchlist-table table { min-width: 860px; font-size: 15px; }
+.app .watchlist-table :is(th, td) { padding: 11px 13px; }
+.app .watchlist-table th { font-size: 14px; font-weight: 600; color: var(--muted); }
+.app .watchlist-table .stock-name { max-width: 310px; min-width: 0; }
+.app .stock-name > span:last-child { min-width: 0; max-width: 250px; }
+.app .stock-name b { font-size: 16px; letter-spacing: .2px; }
+.app .stock-name small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.app .stock-name .logo { flex-shrink: 0; }
+.app .watchlist-table tr.selected { background: #e7dff2; }
+.app .watchlist-table tr.selected td:first-child { box-shadow: inset 3px 0 #735197; }
+.app .watchlist-table tbody tr:hover { background: #f5f1fb; }
+.app .watchlist-pagination { flex-wrap: wrap; gap: 10px; padding: 12px 5px; }
+.app .watchlist-pagination > div { flex-wrap: wrap; }
+.app .watchlist-pagination button { width: 38px; height: 38px; border-color: var(--control-border); }
+.app .watchlist-pagination select { min-height: 38px; font-size: 14px; }
+.app .watchlist-exceptions-heading { align-items: flex-start; }
+.app .watchlist-exception-list { overscroll-behavior: contain; scrollbar-width: thin; }
+.app .table-scroll-hint { display: none; font-size: 14px; color: var(--muted); }
+.app .signal-card { display: flex; flex-direction: column; min-width: 0; }
+.app .signal-top { align-items: flex-start; }
+.app .signal-top > b { min-width: 0; font-size: 20px; }
+.app .signal-top small { overflow-wrap: anywhere; line-height: 1.5; }
+.app .signal-top .pill { flex-shrink: 0; }
+.app .signal-card > .watchlist-membership { margin-top: 5px; overflow-wrap: anywhere; }
+.app .signal-price { flex-wrap: wrap; gap: 6px 12px; margin: 15px 0; }
+.app .signal-bottom { margin-top: auto; padding-top: 13px; }
+.app .signal-card .rule:last-of-type { margin-bottom: 15px; }
+
+/* The selected instrument stays close to the list and its next actions. */
+.app .selected-stock-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 17px;
+  margin-bottom: 10px;
+  background: #f6f1fbe8;
+  border: 1px solid #d8cbe6;
+  border-radius: 15px;
+}
+.app .selected-stock-identity { min-width: 0; color: var(--ink); }
+.app .selected-stock-identity b { font-size: 16px; font-weight: 650; }
+.app .selected-stock-identity small {
+  display: block;
+  max-width: 600px;
+  font-size: 14px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.app .selected-stock-actions { display: flex; flex-wrap: wrap; gap: 7px; flex-shrink: 0; }
+.app .selected-stock-actions button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 9px 13px;
+  border: 1px solid var(--control-border);
+  border-radius: 11px;
+  background: #fff;
+  color: var(--purple);
+  font-size: 14px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+.app .selected-stock-actions button:hover { background: #ece3f5; }
+.app .selected-stock-actions .primary { background: var(--purple); color: #fff; border-color: var(--purple); }
+.app .selected-stock-actions .primary:hover { background: #4c356a; }
+.app .detail { scroll-margin-top: 20px; }
+.app .company { min-width: 0; }
+.app .company > div { min-width: 0; }
+.app .company h2 span { white-space: normal; overflow-wrap: anywhere; }
+.app .chart-price { flex-wrap: wrap; gap: 4px 12px; }
+.app .chart-toolbar { flex-wrap: wrap; gap: 10px; }
+.app .legend { flex-wrap: wrap; gap: 7px 12px; }
+.app .readout { flex-wrap: wrap; gap: 3px 14px; font-variant-numeric: tabular-nums; }
+.app .ranges button { min-height: 36px; }
+
+/* Existing research and risk modules use the same readable secondary type. */
+.app :is(.ci-note, .ci-message, .ci-muted, .ci-source-link, .ci-news-source,
+  .ci-news-summary, .ci-impact-list > span, .ci-table-scroll table,
+  .ci-table-scroll td small, .ci-metric > span, .ci-metric > small,
+  .ci-coverage, .ci-segment button, .ci-segment button > span,
+  .bt-tag, .bt-intro, .bt-form label, .bt-form label small, .bt-form-foot,
+  .bt-kpi > span, .bt-kpi > small, .bt-stats span, .bt-stats strong small,
+  .bt-sample, .bt-legend > span, .bt-readout, .bt-readout > span:first-child,
+  .bt-scrubber, .bt-chart-note, .bt-open-data, .bt-open > p,
+  .bt-ledger-note, .bt-method summary, .bt-method-body, .bt-method-body p,
+  .bt-caution, .bt-empty, .bt-error p,
+  .margin-risk-caption > small, .margin-risk-tile > span, .margin-risk-tile small,
+  .margin-risk-facts dt, .margin-risk-footnote, .margin-risk-inputs label,
+  .margin-risk-interest-base > span, .margin-risk-interest-breakdown,
+  .margin-risk-validation, .margin-risk-sliders label > span,
+  .margin-risk-sliders label > small, .margin-risk-result span,
+  .margin-risk-checks dt,
+  .sl-legend, .sl-readout, .sl-scrubber, .sl-note) { font-size: 14px; }
+.app :is(.ci-news-item h3, .ci-subhead h3, .ci-metric strong,
+  .bt-kpi strong, .bt-stats strong, .bt-readout strong,
+  .margin-risk-tile strong, .margin-risk-facts dd, .margin-risk-interest-total strong,
+  .margin-risk-sliders b, .margin-risk-result strong, .margin-risk-checks dd) {
+  color: var(--ink);
+}
+.app .ci-news-item h3 { font-size: 16px; }
+.app :is(.bt-form input, .bt-form select, .margin-risk-inputs input,
+  .margin-risk-inputs select) { font-size: 15px; }
+.app .backtest-workspace .bt-ledger :is(table, th, td small) { font-size: 14px; }
+.app :is(.bt-svg text, .ci-chart-tick) { fill: var(--muted); }
+
+@media (min-width: 801px) {
+  .app .watchlist-table { max-height: 520px; }
+  .app .watchlist-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #edf0f7;
+    box-shadow: 0 1px 0 #d7cede;
+  }
+}
+
+@media (max-width: 1100px) {
+  .app .selected-stock-toolbar { align-items: flex-start; }
+  .app .selected-stock-actions { max-width: 340px; }
+}
+
+@media (max-width: 800px) {
+  .app .page-heading { gap: 12px; }
+  .app .watchlist-import { padding: 14px; }
+  .app .watchlist-group select { max-width: 100%; }
+  .app .table-scroll-hint { display: block; padding: 6px 14px 8px; background: var(--glass); }
+  .app .watchlist-table { max-height: none; }
+  .app .selected-stock-toolbar { flex-direction: column; gap: 10px; padding: 13px 14px; }
+  .app .selected-stock-actions { max-width: none; width: 100%; }
+  .app .watchlist-pagination { align-items: flex-start; }
+  .app .watchlist-pagination > div { margin-left: auto; }
+  .app .watchlist-table .stock-name { max-width: 245px; }
+  .app .stock-name > span:last-child { max-width: 195px; }
+  .app .signal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app .signal-top { flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 500px) {
+  .app { margin: 6px; padding: 8px; }
+  .app .content { padding-top: 16px; }
+  .app .sidebar { gap: 9px; }
+  .app .nav { font-size: 14px; padding: 9px 12px; }
+  .app .heading-actions { gap: 10px; }
+  .app .heading-actions > span { min-width: 0; font-size: 14px; }
+  .app .refresh { padding: 10px 12px; font-size: 14px; min-height: 42px; }
+  .app .summary-heading { align-items: flex-start; }
+  .app .summary-heading > div { flex-wrap: wrap; gap: 2px 10px; }
+  .app .summary-heading > div > span { font-size: 13px; letter-spacing: .8px; }
+  .app .summary-heading > button { padding: 8px 10px; }
+  .app .summary-card { min-height: 134px; padding: 13px 16px; }
+  .app .summary-card h3 { margin-top: 8px; }
+  .app .summary-value { margin: 7px 0; }
+  .app .structure-body { gap: 8px; }
+  .app .ring-legend { min-width: 116px; }
+  .app .structure-rings { width: 135px; flex-shrink: 0; }
+  .app .controls { gap: 8px; }
+  .app .search { min-width: 150px; padding-left: 10px; }
+  .app .search input { width: 100%; }
+  .app .sort { padding-left: 9px; padding-right: 9px; }
+  .app .sort select { max-width: 105px; }
+  .app .section-heading { padding: 15px 13px 10px; }
+  .app .section-heading > div:first-child { flex-wrap: wrap; gap: 4px 10px; }
+  .app .filters { padding-left: 10px; padding-right: 10px; }
+  .app .watchlist-group select { width: 100%; }
+  .app .selected-stock-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+  .app .selected-stock-actions button { padding: 9px 5px; font-size: 14px; gap: 4px; }
+  .app .selected-stock-actions button svg { width: 14px; height: 14px; }
+  .app .watchlist-pagination { gap: 7px; }
+  .app .watchlist-pagination > span { width: 100%; }
+  .app .watchlist-pagination > div { margin-left: 0; width: 100%; justify-content: space-between; gap: 6px; }
+  .app .signal-grid { grid-template-columns: minmax(0, 1fr); }
+  .app .signal-top { flex-direction: row; gap: 10px; }
+  .app .signal-top .pill { font-size: 13px; padding: 5px 8px; }
+  .app .detail > .panel > .panel-head { align-items: flex-start; flex-wrap: wrap; gap: 9px; }
+  .app .company { flex: 1; }
+  .app .company h2 span { display: block; margin: 3px 0 0; }
+  .app .chart-price > small { width: 100%; margin-left: 0; }
+  .app .chart-toolbar { gap: 8px; }
+  .app .legend { gap: 6px 10px; }
+  .app .ranges { width: 100%; justify-content: space-between; }
+  .app .ranges button { flex: 1; padding: 7px 5px; }
+  .app .readout { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 8px; }
+  .app .chart-note { padding: 10px 14px; }
+  .app .company-workspace-tabs button { font-size: 14px; padding: 9px 10px; }
+  .app .margin-risk-facts { grid-template-columns: minmax(0, 1fr); }
+  .app .margin-risk-interest-breakdown { flex-wrap: wrap; gap: 4px 12px; }
+  .app .margin-risk-tile { padding: 13px 11px; }
+  .app .margin-risk-tile strong { font-size: clamp(20px, 6.2vw, 27px); }
+  .app .bt-kpi strong { font-size: clamp(24px, 7vw, 30px); }
+}
+
+@media (pointer: coarse) {
+  .app :is(.privacy-button, .star, .notice > button, .watchlist-pagination button,
+    .nav, .filters button, .ranges button, .selected-stock-actions button) { min-height: 44px; }
+  .app :is(.privacy-button, .star, .notice > button, .watchlist-pagination button) { min-width: 44px; }
+  .app :is(input, select, textarea):not([type="range"]):not([type="checkbox"]):not([type="radio"]) { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .app :is(.summary-card, .signal-card):hover { transform: none; }
+}
+
+/* Fewer primary destinations; related views remain together. */
+.workspace-help-button { display:flex; align-items:center; gap:7px; padding:10px 13px; border-radius:24px; font-size:14px; color:var(--ink); white-space:nowrap; }
+.workspace-help-button:hover, .workspace-help-button.active { background:#e8ddf2; }
+.workspace-sections { display:flex; align-items:center; gap:8px; margin:0 0 18px; padding:7px; border:1px solid #fff; border-radius:20px; background:rgba(252,253,255,.55); }
+.workspace-sections button { padding:10px 20px; border-radius:15px; color:var(--ink); font-weight:600; font-size:15px; }
+.workspace-sections button[aria-pressed="true"] { background:var(--purple); color:white; }
+.workspace-sections button span { margin-left:9px; opacity:.8; font-size:13px; }
+.workspace-sections p { margin-left:auto; padding-right:12px; font-size:14px; color:var(--muted); }
+.workspace-archive { margin:18px 0; border:1px solid white; border-radius:22px; background:rgba(252,253,255,.5); padding:18px; }
+.workspace-archive > summary { cursor:pointer; font-size:16px; font-weight:650; color:var(--ink); }
+.workspace-archive > p { margin:14px 0; line-height:1.65; color:var(--muted); font-size:14px; }
+.workspace-archive[open] > summary { margin-bottom:18px; }
+.workspace-archive .portfolio-grid { margin-top:18px; }
+.workspace-help-intro { padding:24px; margin-bottom:18px; }
+.workspace-help-intro p { max-width:900px; margin:12px 0 18px; line-height:1.8; color:var(--muted); }
+.workspace-help-intro button, .workspace-advanced button { background:var(--purple); color:#fff; border-radius:14px; padding:11px 16px; }
+.workspace-backtest-navigation { display:flex; align-items:flex-start; gap:14px; justify-content:space-between; margin-bottom:18px; }
+.workspace-backtest-navigation .strategy-switch { margin-bottom:0; }
+.workspace-advanced { border:1px solid #fff; background:rgba(252,253,255,.55); padding:12px 16px; border-radius:18px; max-width:380px; font-size:14px; }
+.workspace-advanced summary { cursor:pointer; font-weight:600; }
+.workspace-advanced p { margin:12px 0; line-height:1.6; color:var(--muted); }
+.workspace-data-warning { margin-bottom:16px; padding:13px 18px; background:#f3e5d8; color:#64442d; border:1px solid #fff; border-radius:18px; font-size:14px; }
+.workspace-data-warning summary { cursor:pointer; font-weight:600; }
+.workspace-data-warning p { margin-top:12px; line-height:1.8; overflow-wrap:anywhere; }

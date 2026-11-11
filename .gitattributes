@@ -1,0 +1,8 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# git archive also omits local session notes if present in older snapshots.
+/docs/superpowers export-ignore
+/backend/data export-ignore
+/screenshots export-ignore
+/captures export-ignore

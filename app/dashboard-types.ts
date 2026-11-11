@@ -1,0 +1,9 @@
+import type { Research, Fundamental, PortfolioAnalytics } from "./research-panel";
+import type { AccountRisk } from "./risk-panel";
+import type { Watchlists } from "./watchlist-panel";
+
+export type Bar={date:string;open:number;high:number;low:number;close:number;volume:number|null;ma20:number|null;ma50:number|null;ma200:number|null};
+export type Stock={exchange?:string;quoteType?:string;quoteStatus?:'ready'|'stale';quoteError?:string|null;symbol:string;name:string;sector:string;asOf:string;close:number;changePct:number;ret20:number|null;ret60:number|null;ma20:number|null;ma50:number|null;ma200:number|null;rsi:number|null;volatility:number|null;atr:number|null;relative20:number|null;bars:number;status:string;history:Bar[];signals:{id:string;label:string;tone:string;description:string}[];observation:string;research?:Research};
+export type Position={symbol:string;quantity:number|null;averagePrice:number|null;marketPrice:number|null;marketValue:number|null;pnl:number|null;returnPct:number|null;weightPct:number|null};
+export type MarketWarning={symbol:string;date:string;missingFields:string[]};
+export type Data={watchlists?:Watchlists;quoteRefresh?:{errors:{symbol:string;message:string;usedCache:boolean}[];updatedSymbols:string[]};refresh?:{running:boolean;lastError:string|null};marketWarnings?:MarketWarning[];generatedAt:string;marketAsOf:string;marketSource:string;engine:string;stocks:Stock[];benchmark:{close:number;changePct:number;asOf?:string};portfolio:{source?:string;asOf:string;netLiquidation:number|null;cash:number|null;leverage:number|null;sevenMarketValue:number|null;sevenPnl:number|null;positions:Position[]};fundamentals:Fundamental[];portfolioAnalytics?:PortfolioAnalytics;accountRisk?:AccountRisk;sources:{name:string;status:string;asOf:string;detail:string}[];rules:{name:string;description:string}[]};
